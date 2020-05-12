@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+<div>
+    <h2>Detail View</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"> ID:</th>
+            <th scope="col"> Name:</th>
+            <th scope="col"> Email:</th>
+            <th scope="col"> Phone:</th>
+            <th scope="col"> Age</th>
+            <th scope="col"> Payment</th>
+        </tr>
+              </thead>
+
+        <tr>
+            <td>{{code.id}}</td>
+            <td>{{code.name}}</td>
+            <td>{{code.email}}</td>
+            <td>{{code.phone}}</td>
+            <td>{{code.age}}</td>
+            <td>
+                {% if code.status %}
+                Paid
+                {% else %}
+                Unpaid
+                {% endif %}
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+    {% endblock %}

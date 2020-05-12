@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+<div>
+    <h2>Calculator List</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"> ID:</th>
+            <th scope="col"> First Number:</th>
+            <th scope="col"> Last Number:</th>
+            <th scope="col"> Type:</th>
+            <th scope="col"> Result</th>
+            <th scope="col"> User</th>
+            <th scope="col"> Edit</th>
+        </tr>
+        </thead>
+        {% for Calculator in obj %}
+        <tr>
+            <td>{{Calculator.id }}</td>
+            <td>{{Calculator.firstnumber }}</td>
+            <td>{{Calculator.lastnumber }}</td>
+            <td>{{Calculator.type }}</td>
+            <td>{{Calculator.result }}</td>
+            <td>{{Calculator.user }}</td>
+            <td> <p><a class="btn btn-sm btn-primary" href="{% url 'edit_cal' Calculator.id %}" role="button">Edit</a></p>
+
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+    {% endblock %}

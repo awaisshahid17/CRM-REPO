@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block content %}
+
+<div class="container">
+    <h2>Edit Calculator</h2>
+
+  <form method='POST' action='' id="cal-form" enctype='multipart/form-data' >
+      {% csrf_token %}
+      {{form.as_p}}
+
+        Num1:<br>
+         <input type="text" id="num1" name="firstnumber" value="{{num1}}">
+        <br>
+        Num2:<br>
+        <input type="text" id="num2" name="lastnumber" value="{{num2}}">
+        <br>
+
+        <input type="radio" name="type" value="+">
+        <label for="add">Add</label><br>
+        <input type="radio" name="type" value="-">
+        <label for="Subtract">Subtract</label><br>
+        <input type="radio" name="type" value="*">
+        <label for="Multiply">Multiply</label><br>
+        <input type="radio" name="type" value="/">
+        <label for="Division">Division</label>
+
+        <button class='btn btn-sm btn-primary' id="submit Calculator.id"  value="submit" type='Submit'>Edit</button>
+<!--        Result= <div id="result-form"></div>-->
+        <br>
+  </form>
+</div>
+<div class="clearfix"></div>
+<div class="container">
+
+    <div id="update_list">
+{% include "partial/cal_list.html" %}
+
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+ <script type="text/javascript">
+
+       $(document).ready(function(){
+        $('#submit').click(function(event){
+            event.preventDefault();
+        var val_1 = $("#num1").val();
+            console.log(val_1);
+        var val_2 = $("#num2").val();
+            console.log(val_2);
+        var data={"num1": val_1 ,"num2": val_2};
+        $.ajax({
+            url:'{% url 'cal_list' %}',
+            type:'POST',
+            data:$('#cal-form').serialize(),
+            success:function(response){
+                  console.log(response);
+                     Updatelist()
+                    console.log(Updatelist);
+            }
+        });
+
+    })
+})
+
+  function Updatelist(){
+    $.ajax({
+    type:"GET",
+    url:'{% url 'update_cal_list' %}',
+    success:function(response){
+        console.log(response);
+           $('#update_list').html(response)
+        }
+    })
+}
+
+            function edit(){
+            $('#btn-edit-promo').on('click',function(e){
+               e.preventDefault();
+               $.ajax ({
+                  type:"POST",
+                url:'{% url 'cal_list' %}',
+                   data:$('#cal-form').serialize(),
+                         success:function (response) {
+                             console.log(response);
+                      }
+
+
+               });
+
+      });
+
+</script>
+
+    {% endblock %}

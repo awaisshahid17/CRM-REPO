@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<main role="main" class="container">
+    <title>{% block title %}Home{% endblock %}</title>
+
+    <div class="jumbotron">
+        <h1> CRM Manager Dash board </h1>
+
+        <p><a class="btn btn-sm btn-primary" href="{% url 'add_promo' %}" role="button">Add Promocode &raquo;</a></p>
+        <p><a class="btn btn-sm btn-primary" href="{% url 'promo' %}" role="button">Promo List &raquo;</a></p>
+
+
+    </div>
+</main>
+{% endblock %}

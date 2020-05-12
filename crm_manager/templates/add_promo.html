@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+    .errorlist{color:red}
+
+</style>
+<div class="container">
+    <h2>Add Promocode</h2>
+
+    <form method='POST' action='' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class='btn btn-sm btn-primary' type='Submit'>Submit</button>
+    </form>
+</div>
+{% endblock %}

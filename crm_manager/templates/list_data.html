@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+
+<div class="container">
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-info btn-lg btn-add" data-toggle="modal"
+                data-target="#add-modal">Add Data
+        </button>
+
+    </div>
+
+
+    <style xmlns="http://www.w3.org/1999/html">
+    .errorlist{color:red}
+    </style>
+
+
+    <h2>Data List</h2>
+    <div id="load-data-list">
+    </div>
+
+
+</div>
+<!-- Edit Data Modal -->
+<div class="modal fade" id="edit-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--                        <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <h4 class="modal-title">Edit </h4>
+            </div>
+            <div class="modal-body edit-form-body">
+                {% include "partial/edit_data_form.html" %}
+            </div>
+           <div><button class='btn btn-sm btn-primary' id="btn-edit-data">Edit</button></div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Data Modal -->
+<div class="modal fade" id="add-modal" role="dialog">
+
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--                        <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <h4 class="modal-title">Add Data</h4>
+            </div>
+            <div class="modal-body ">
+                    <div class="data-form-add-body">
+                    {% include "partial/add_data_form.html" %}
+                    </div>
+                    <button class='btn btn-sm btn-primary' id="btn-add-data">Add</button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- View Data Modal -->
+<div class="modal fade" id="view-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--                        <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <h4 class="modal-title">View </h4>
+            </div>
+            <div class="modal-body view-form-body" >
+                {% include "partial/partial_view_data.html" %}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+            function DataFormupdate(id){
+            $('#edit-form-data').on('submit',function(e){
+         e.preventDefault();
+         $.ajax
+          ({
+         type:"POST",
+         url: "/edit_code/"+id+"/",
+         data:$('#edit-form-data').serialize(),
+                success:function (response) {
+             if (response.status == 'success') {
+               alert(" Edit Successfully. ");
+               $("#edit-modal").modal("hide");
+                  Updatelist()
+              }else{
+               alert(" Can't Edit error!");
+                    }
+              }
+             });
+
+        });
+            $('.btn-edit-data').on('click',function(e){
+               $("#edit-modal").modal("show")
+               var id=$(this).attr('data-id')
+                    console.log('id');
+               $.ajax
+                ({
+               type:"GET",
+               url: '/update_code/',
+               data:{'id': id},
+               success:function (response) {
+                 $(".edit-form-body").html(response).promise().done(function(){
+                       DataFormupdate(id);
+                    });
+                }
+                });
+            });
+     };
+
+             $(document).ready(function(){
+                $("#btn-add-data").on('click',function(){
+                $("#add-modal").modal('show')
+                $.ajax({
+                   type:"POST",
+                  url: '{% url "add_code" %}',
+                  data:$('#add-form-data').serialize(),
+                         success:function (response) {
+                      if (response.status == 'success') {
+                           $("#add-modal").modal("hide");
+                                Updatelist()
+                      }else{
+                         $('.data-form-add-body').html(response)
+                            }
+
+                  }
+               });
+         });
+      });
+
+    $(document).ready(function(){
+        Updatelist()
+    })
+  function Updatelist(){
+    $.ajax
+    ({
+    type:"GET",
+    url: '/update_list/',
+    success:function (response) {
+        $('#load-data-list').html(response)
+        }
+    });
+}
+
+
+
+
+</script>
+
+
+{% endblock %}
+

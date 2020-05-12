@@ -1,0 +1,40 @@
+{% load staticfiles %}
+{% block content %}
+
+
+<div class="container">
+    <div class="d-flex justify-content-end">
+        <ul><a class="btn btn-sm btn-primary pull right" href="{% url 'add_promo' %}" role="button">Add Promocode </a>
+        </ul>
+    </div>
+    <h2>Promocode List</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"> ID:</th>
+            <th scope="col"> Code:</th>
+            <th scope="col"> Amount Percent:</th>
+            <th scope="col"> Available</th>
+            <th scope="col"> Free</th>
+        </tr>
+        </thead>
+        {% for Promocode in obj %}
+        <tr>
+            <td>{{Promocode.id }}</td>
+            <td>{{Promocode.code }}</td>
+            <td>
+                {% if Promocode.type == "amount" %}
+                $
+                {{Promocode.amount_percent}}
+                {% else %}
+                {{Promocode.amount_percent}}
+                %
+                {% endif %}
+            </td>
+            <td>{{Promocode.is_Available }}</td>
+            <td>{{Promocode.is_free }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% endblock %}
